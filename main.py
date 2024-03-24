@@ -1,4 +1,4 @@
-import pandas
+import numpy as np
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -9,9 +9,9 @@ calender = {1: range(1, 32), 2: range(1, 29), 3: range(1, 32), 4: range(1, 31), 
 YEAR = 2018
 
 first_winners = []
-main_df = pandas.DataFrame()
+main_df = pd.DataFrame()
 
-print("Generating CSV....")
+print("Generating xlsx....")
 for month, days in calender.items():
     # Iterate through the possible days of the month
     for day in days:
@@ -43,9 +43,12 @@ for month, days in calender.items():
             "4th machine":  [int(str(num)[3]) for num in numbers]
         }
         df = pd.DataFrame(data)
-        df.insert(0, "Date", f"{day}/{month}/{YEAR}", True)
+        df.insert(0, "Date", np.nan, True)
+        df.loc[0, "Date"] = f"{day}/{month}/{YEAR}"
         main_df = pd.concat([main_df, df], axis=0)
-main_df.insert(7, "First prize", first_winners, True)
-main_df.to_csv("forfun.csv")
+main_df.insert(6, "First prize", np.nan)
+main_df.iloc[:len(first_winners), 6] = first_winners
+main_df.to_excel("forfun.xlsx", index=False)
+
 print("Generation has been completed")
 
