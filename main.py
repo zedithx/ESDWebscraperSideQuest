@@ -33,7 +33,7 @@ for month, days in calender.items():
         numbers.append(soup.find(id="sp3").text)
         for i in range(1, 11):
             numbers.append(soup.find(id=f"ss{i}").text)
-        for i in range(1,6):
+        for i in range(1, 11):
             numbers.append(soup.find(id=f"sc{i}").text)
         data = {
             "Number": numbers,
